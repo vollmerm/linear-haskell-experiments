@@ -11,12 +11,14 @@ library
     Simple.Pure
     Simple.BinaryTree
   build-depends:
-    base,
+    base >= 4.7 && < 5,
     hspec,
     HUnit,
     linear-base,
     storable-tuple,
     vector,
-    text
+    text,
+    binary,
+    bytestring
   default-language: Haskell2010
   default-extensions: LinearTypes, GADTs

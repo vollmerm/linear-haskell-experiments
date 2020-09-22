@@ -6,7 +6,7 @@
 \begin{document}
 \maketitle
 
-This was adapted from the documentation of linear-base.
+This was adapted from the documentation of @linear-base@.
 
 We have simple linear functions and simple linear data structures that
 illustrate the basic concepts of how the type checker of GHC with linear
@@ -23,7 +23,7 @@ module Simple.Pure where
 
 \section{Simple linear functions}
 
-A linear function simply "consumes/uses" its argument exactly once.
+A linear function simply ``consumes/uses'' its argument exactly once.
 
 Giving a more precise idea of this is tricky, so first we present a bunch of
 examples. You should try to get a sense of the arithmatic of how many times
@@ -147,7 +147,7 @@ nonLinearTriple x = (linearIdentity x, linearIdentity (nonLinearPair2 x))
 \end{code}
 
 With several examples in hand, we can now give a more precise way of
-constructively checking that an argument is "consumed exactly once".
+constructively checking that an argument is ``consumed exactly once''.
 Here's a rough (good enough most of the time) definition:
 
 Let |f :: A #-> B|.  Suppose that we don't have the identity, |f x = x|
