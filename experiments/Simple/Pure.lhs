@@ -1,6 +1,6 @@
 \section{Some Pure Functions}
 
-This was adapted from the documentation of @linear-base@.
+This was adapted from the documentation of \verb@linear-base@.
 
 We have simple linear functions and simple linear data structures that
 illustrate the basic concepts of how the type checker of GHC with linear
@@ -100,7 +100,7 @@ they are. Each is consumed exactly once in a linear input
 to the constructor |(,) :: a #-> b #-> (a,b)|.
 
 Notice the general pattern: we consumed |(a,b)| linearly by pattern matching
-into @Constructor arg1 ... argn@ and consumed the linearly bound arguments
+into |Constructor arg1 ... argn| and consumed the linearly bound arguments
 of the constructor linearly by giving them as arguments to some other
 constructor that is linear on the appropreate arguments.
 
@@ -298,4 +298,4 @@ two functions above:
 
 
 In the Linear Haskell POPL '18 paper, this datatype is called
-|Unrestricted|.
+|Unrestricted|. Now it is called |Ur|.

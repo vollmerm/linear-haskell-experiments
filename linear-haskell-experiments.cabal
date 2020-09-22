@@ -19,6 +19,7 @@ library
     vector,
     text,
     binary,
-    bytestring
+    bytestring,
+    deepseq
   default-language: Haskell2010
   default-extensions: LinearTypes, GADTs

@@ -20,9 +20,11 @@ import Data.Binary.Put (execPut)
 import Data.Kind
 import qualified Data.Monoid as Monoid-- HACK to make app work below, should define linear monoid for builder
 import Unsafe.Linear
+import Control.DeepSeq
 \end{code}
 }
 
+\subsection{Cursors}
 
 A ``needs'' cursor requires a list of fields be written to the
 bytestream before the data is fully initialized.  Once it is, a
@@ -148,4 +150,80 @@ unsafeBinaryToPacked bs = Packed bs
 
 toBS :: Builder #-> ByteString
 toBS = toLinear B.toLazyByteString
+\end{code}
+
+\subsection{Tree Traversals}
+
+\begin{code}
+type IntU = Ur Int
+
+data Tree = Leaf !Int
+          | Branch Tree Tree
+ deriving (Show, Eq)
+
+instance NFData Tree where
+  rnf (Leaf n) = rnf n
+  rnf (Branch x y) = rnf x `seq` rnf y
+
+type TagTy = Word8
+
+leafTag   :: TagTy; leafTag   = 100
+branchTag :: TagTy; branchTag = 111
+\end{code}
+
+\begin{code}
+writeLeaf :: Int -> Needs (Tree ': b) t #-> Needs b t
+writeLeaf n oc = writeLeaf' n (unsafeCastNeeds oc)
+  where
+   writeLeaf' :: Int -> Needs (TagTy ': Int ': b) t #-> Needs b t
+   writeLeaf' x c = writeC x (writeC leafTag c)
+\end{code}
+
+\begin{code}
+writeBranch :: forall b t . Needs (Tree ': b) t #-> Needs (Tree ': Tree ': b) t
+writeBranch oc = writeC branchTag (unsafeCastNeeds oc)
+\end{code}
+
+\begin{code}
+caseTree ::  forall b t.
+             Has (Tree ': b)
+         #-> (Has (Int ': b) #-> t)
+         ->  (Has (Tree ': Tree ': b) #-> t)
+         ->  t
+caseTree tr f1 f2 = splitC tr leafTag branchTag f1 f2
+\end{code}
+
+Sadly doesn't work:
+
+\begin{spec}
+sumLeaves :: Has '[Tree] -> IntU
+sumLeaves p = fst (go p)
+  where go p = caseTree p
+               readC
+               (\p2 -> let (n,p3) = go p2
+                           (m,p4) = go p3
+                       in (n + m, p4)
+\end{spec}
+
+So we need to CPS the function and avoid any let bindings:
+
+\begin{code}
+sumLeaves :: Packed Tree -> Int
+sumLeaves tr = unur (fst (go (toHas tr)))
+  where
+        go ::  Has (Tree ': b) #-> (IntU, Has b)
+        go p = caseTree p
+               readC
+               (\br -> sumLeft $ go br)
+
+        sumLeft ::   (IntU, Has (Tree : b)) #-> (IntU, Has b)
+        sumLeft (n,p1) = sumRight (go p1) n
+
+        sumRight ::  (IntU, Has b) #-> IntU #-> (IntU, Has b)
+        sumRight (m,p) n = (sumU n m, p)
+\end{code}
+
+\begin{code}
+sumU ::  IntU #-> IntU #-> IntU
+sumU (Ur n) (Ur m) = Ur (n + m)
 \end{code}
