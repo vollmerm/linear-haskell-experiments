@@ -1,10 +1,4 @@
-\documentclass{article}
-%include polycode.fmt
-%format #-> = "\multimap"
-\title{Simple uses of Linear Haskell}
-\long\def\ignore#1{}
-\begin{document}
-\maketitle
+\section{Some Pure Functions}
 
 This was adapted from the documentation of @linear-base@.
 
@@ -21,7 +15,7 @@ module Simple.Pure where
 \end{code}
 }
 
-\section{Simple linear functions}
+\subsection{Simple linear functions}
 
 A linear function simply ``consumes/uses'' its argument exactly once.
 
@@ -42,6 +36,8 @@ that follows it is linear.
 
 Here, the argument is present exactly once in the body and is
 consumed exactly once.
+
+In Linear Haskell, |a #-> a| is written as \verb!a #-> a!.
 
 \begin{code}
 linearSwap :: (a,a) #-> (a,a)
@@ -209,7 +205,7 @@ type:
 \end{spec}
 
 
-\section{Linear functions with user data types}
+\subsection{Linear functions with user data types}
 
 
 As we've seen, we can consume linearly bound inputs into data types if
@@ -303,5 +299,3 @@ two functions above:
 
 In the Linear Haskell POPL '18 paper, this datatype is called
 |Unrestricted|.
-
-\end{document}

@@ -1,11 +1,4 @@
-\documentclass{article}
-%include polycode.fmt
-%format #-> = "\multimap"
-\title{Binary trees in Linear Haskell}
-\long\def\ignore#1{}
-\begin{document}
-\maketitle
-
+\section{Serialized Binary Trees}
 \ignore{
 \begin{code}
 {-# LANGUAGE LinearTypes #-}
@@ -156,4 +149,3 @@ unsafeBinaryToPacked bs = Packed bs
 toBS :: Builder #-> ByteString
 toBS = toLinear B.toLazyByteString
 \end{code}
-\end{document}
