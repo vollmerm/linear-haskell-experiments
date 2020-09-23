@@ -11,15 +11,6 @@ packages:
 extra-deps:
 - git: https://github.com/tweag/linear-base.git
   commit: 0d4713216b63aa8d1abb17b71c0ec0006c4dfbe5
-- git: https://github.com/buggymcbugfix/quickcheck.git
-  commit: f24fbd0d0f7a03da76c46b31d6fba9678ff5e71c
-- git: https://github.com/utdemir/haskell-hedgehog.git
-  commit: c98aa9e33bf6871098d6f4ac94eeaac10383d696
-  subdirs:
-    - hedgehog
-# below is required for getting quickcheck compile
-- random-1.2.0
-- splitmix-0.1.0.1
 
 nix:
   enable: true

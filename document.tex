@@ -1,13 +1,23 @@
-\documentclass{article}
+\documentclass[fullpage]{article}
 \usepackage{listings}
 \usepackage{amsmath}
 \usepackage{txfonts}
 \input{haskell_style}
+\input{yaml_style}
 \lstMakeShortInline|
 \long\def\ignore#1{}
 \title{Experiments with Linear Haskell}
 \begin{document}
 \maketitle
+\tableofcontents
+\section{Setting up Stack and Nix for Linear Haskell}
+The easiest way to get started with Linear Haskell is using Stack and Nix. We need to use the experimental branch of GHC that supports the \texttt{LinearTypes} extension, and we also need to include the experimental \texttt{linear-base} package. To do this, create a \texttt{stack.yaml} file in your project root matching what is shown below:
+\lstinputlisting[language=yaml]{stack.yaml}
+You also need to include \texttt{linear-base} in your \texttt{cabal.project} file like so:
+\lstinputlisting[language=yaml]{cabal.project}
+And finally you need to set up your project's cabal file. For this repository, it is called \texttt{linear-haskell-experiments.cabal} and the contents are as follows:
+\lstinputlisting[language=yaml]{linear-haskell-experiments.cabal}
+At this point, you can run \texttt{stack build} to build your project with the Linear Haskell branch of GHC, or you can run the repl with \texttt{stack repl} (and enable linear types with \texttt{:set -XLinearTypes}).
 \input{experiments/Simple/Pure.lhs}
 \input{experiments/Simple/BinaryTree.lhs}
 \end{document}

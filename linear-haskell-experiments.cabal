@@ -12,8 +12,6 @@ library
     Simple.BinaryTree
   build-depends:
     base >= 4.7 && < 5,
-    hspec,
-    HUnit,
     linear-base,
     storable-tuple,
     vector,
